@@ -1,0 +1,55 @@
+services:
+  sys-localidades:
+    image: willianmoura3zx/sys-localidades:1.0
+    container_name: sys-localidades
+    ports:
+      - "2323:8000"
+    environment:
+      # Variáveis de ambiente substituindo o env_file
+      DATABASE_URL: ${DATABASE_URL}
+    depends_on:
+      - db-sys-localidades
+    # A rede 'sistema_interno' foi mantida, conforme a configuração original
+    restart: always
+    networks:
+      - internal_net_base_sys_localidades
+      - sistema_interno 
+
+  db-sys-localidades:
+    # CRUCIAL: Mantida a imagem PostGIS, necessária para a coluna de geometria dos Municípios.
+    image: postgis/postgis:15-3.4
+    container_name: db-sys-localidades
+    environment:
+      # Variáveis de ambiente substituindo o env_file
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data_sys_localidades:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - internal_net_base_sys_localidades
+
+  pgadmin-sys-localidades:
+    image: dpage/pgadmin4
+    container_name: pgadmin-sys-localidades
+    environment:
+      # Variáveis de ambiente substituindo o env_file
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "2424:80"
+    depends_on:
+      - db-sys-localidades
+    restart: always
+    networks:
+      - internal_net_base_sys_localidades
+
+volumes:
+  postgres_data_sys_localidades:
+
+networks:
+  internal_net_base_sys_localidades:
+    driver: bridge
+  sistema_interno:
+    external: true

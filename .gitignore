@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+dados_geo/
+
+# Ambiente virtual
+venv/
+.venv/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Configurações e Credenciais
+.env
+credentials.json
+*.json.bak
+
+# Banco de Dados
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+gestao_gr.db
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+
+# FastAPI
+.pytest_cache/
+
+# Temporários
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Plano
+PLAN.md

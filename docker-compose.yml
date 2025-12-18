@@ -1,0 +1,53 @@
+services:
+  sys-localidades:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: willianmoura3zx/sys-localidades:1.0
+    container_name: sys-localidades
+    ports:
+      - "2323:8000"
+    env_file:
+      - ".env"
+    depends_on:
+      - db-sys-localidades
+    volumes:
+      - .:/app
+    restart: always
+    networks:
+      - internal_net_base_sys_localidades
+      - sistema_interno
+
+  db-sys-localidades:
+    # IMAGEM ATUALIZADA: Utiliza a imagem oficial com a extensão PostGIS pré-instalada.
+    image: postgis/postgis:15-3.4
+    container_name: db-sys-localidades
+    restart: always
+    env_file:
+      - ".env"
+    volumes:
+      - postgres_data_sys_localidades:/var/lib/postgresql/data
+    networks:
+      - internal_net_base_sys_localidades
+
+  pgadmin-sys-localidades:
+    image: dpage/pgadmin4
+    container_name: pgadmin-sys-localidades
+    restart: always
+    env_file:
+      - ".env"
+    ports:
+      - 2424:80
+    depends_on:
+      - db-sys-localidades
+    networks:
+      - internal_net_base_sys_localidades
+
+volumes:
+  postgres_data_sys_localidades:
+
+networks:
+  internal_net_base_sys_localidades:
+    driver: bridge
+  sistema_interno:
+    external: true
