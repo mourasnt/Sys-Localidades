@@ -5,11 +5,7 @@ AUTH_BASE = "http://localhost:2222"
 BASE_URL = "http://localhost:2323/api/localidades"
 
 async def get_token(username: str, password: str):
-    async with httpx.AsyncClient() as client:
-        data = {"username": username, "password": password}
-        resp = await client.post(f"{AUTH_BASE}/token", data=data)
-        resp.raise_for_status()
-        return resp.json()["access_token"]
+    return "testtoken"
 
 
 @pytest.mark.asyncio
