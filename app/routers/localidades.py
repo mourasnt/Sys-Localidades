@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from app.schemas.localidade import EstadoRead, MunicipioRead
 from app.services.localidades_service import LocalidadesService
-from app.auth import get_current_user, require_roles
+from app.auth import get_current_user
 
 router = APIRouter(dependencies=[Depends(get_current_user)])
 
@@ -46,7 +46,7 @@ async def municipios_por_raio(codigo_ibge: int, raio: float, db: AsyncSession = 
 
 
 @router.post("/sincronizar")
-async def sincronizar(db: AsyncSession = Depends(get_db), current_user: dict = Depends(require_roles("admin"))):
+async def sincronizar(db: AsyncSession = Depends(get_db)):
     """Sincroniza localidades com IBGE (requer admin)"""
     await LocalidadesService.sincronizar_com_ibge(db)
     return {"status": "ok", "mensagem": "Localidades atualizadas com IBGE"}

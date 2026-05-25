@@ -7,13 +7,12 @@ services:
     environment:
       # Variáveis de ambiente substituindo o env_file
       DATABASE_URL: ${DATABASE_URL}
+      API_TOKEN: ${API_TOKEN}
     depends_on:
       - db-sys-localidades
-    # A rede 'sistema_interno' foi mantida, conforme a configuração original
     restart: always
     networks:
       - internal_net_base_sys_localidades
-      - sistema_interno 
 
   db-sys-localidades:
     # CRUCIAL: Mantida a imagem PostGIS, necessária para a coluna de geometria dos Municípios.
@@ -30,26 +29,9 @@ services:
     networks:
       - internal_net_base_sys_localidades
 
-  pgadmin-sys-localidades:
-    image: dpage/pgadmin4
-    container_name: pgadmin-sys-localidades
-    environment:
-      # Variáveis de ambiente substituindo o env_file
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-    ports:
-      - "2424:80"
-    depends_on:
-      - db-sys-localidades
-    restart: always
-    networks:
-      - internal_net_base_sys_localidades
-
 volumes:
   postgres_data_sys_localidades:
 
 networks:
   internal_net_base_sys_localidades:
     driver: bridge
-  sistema_interno:
-    external: true

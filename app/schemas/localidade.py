@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, ConfigDict, field_validator
 import uuid
 from typing import List, Optional
 
@@ -17,8 +17,7 @@ class EstadoBase(BaseModel):
 class EstadoRead(EstadoBase):
     uuid: uuid.UUID
 
-    class Config:
-        orm_mode = True  # ✅ Corrigido
+    model_config = ConfigDict(from_attributes=True)
 
 
 class EstadoSimple(BaseModel):
@@ -26,8 +25,7 @@ class EstadoSimple(BaseModel):
     nome: str
     sigla: str
 
-    class Config:
-        orm_mode = True  # ✅ Corrigido
+    model_config = ConfigDict(from_attributes=True)
 
 
 class MunicipioBase(BaseModel):
@@ -44,5 +42,4 @@ class MunicipioBase(BaseModel):
 class MunicipioRead(MunicipioBase):
     uuid: uuid.UUID
 
-    class Config:
-        orm_mode = True  # ✅ Corrigido
+    model_config = ConfigDict(from_attributes=True)
