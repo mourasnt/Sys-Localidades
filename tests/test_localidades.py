@@ -1,8 +1,9 @@
+import os
 import pytest
 import httpx
 
-BASE_URL = "http://localhost:2323/api/localidades"
-API_TOKEN = "testtoken"
+BASE_URL = os.getenv("LOCALIDADES_TEST_URL", "http://localhost:2323/api/localidades")
+API_TOKEN = os.getenv("LOCALIDADES_API_TOKEN", "testtoken")
 
 
 @pytest.mark.asyncio
